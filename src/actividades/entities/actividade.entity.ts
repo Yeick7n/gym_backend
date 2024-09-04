@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { Maquina } from "src/maquinas/entities/maquina.entity";
 import { Usuario } from "src/usuarios/entities/usuario.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -23,6 +24,6 @@ export class Actividade {
     @ManyToOne(() => Usuario, (usuario) => usuario.actividades)
     usuario: Usuario;
 
-    
-    // id_maquina
+    @ManyToOne(() => Maquina, (maquina) => maquina.actividades)
+    maquina: Maquina;
 }

@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Actividade } from "src/actividades/entities/actividade.entity";
+import { TipoMaquina } from "src/tipo-maquina/entities/tipo-maquina.entity";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Maquina {
@@ -13,5 +15,9 @@ export class Maquina {
     @Column()
     estado: string;
 
-    // TIPO DE MAQUINA
+    @OneToMany(() => Actividade, (actividad) => actividad.maquina)
+    actividades: Actividade[];
+
+    @ManyToOne(() => TipoMaquina, (tipoMaquina) => tipoMaquina.maquinas)
+    tipoMaquina: TipoMaquina;
 }

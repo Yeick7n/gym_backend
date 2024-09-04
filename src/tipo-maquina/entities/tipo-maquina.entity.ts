@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Maquina } from 'src/maquinas/entities/maquina.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class TipoMaquina {
@@ -8,4 +9,7 @@ export class TipoMaquina {
 
   @Column()
   nombre: string;
+
+  @OneToMany(() => Maquina, (maquina) => maquina.tipoMaquina)
+  maquinas: Maquina[];
 }

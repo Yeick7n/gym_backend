@@ -6,7 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TipoMaquina } from './entities/tipo-maquina.entity';
 
 @Module({
-  exports: [TypeOrmModule.forFeature([TipoMaquina])],
+  imports
+  
+  : [TypeOrmModule.forFeature([TipoMaquina])],
   controllers: [TipoMaquinaController],
   providers: [TipoMaquinaService],
 })
