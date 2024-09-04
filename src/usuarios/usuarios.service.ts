@@ -31,12 +31,11 @@ export class UsuariosService {
     return await this.usuarioRepository.save(newUser);
   }
 
-  async saveUser(createUsuario: CreateUsuarioDto){
-    return this.usuarioRepository.save(createUsuario)
-  }
 
   async findAll() {
-    return this.usuarioRepository.find();
+    return this.usuarioRepository.find({
+      relations: ['rol'],
+    });
   }
 
   async findOne(id: number) {

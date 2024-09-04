@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Actividade } from 'src/actividades/entities/actividade.entity';
+import { Role } from 'src/roles/entities/role.entity';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Usuario {
@@ -28,5 +30,9 @@ export class Usuario {
   @Column()
   altura: number;
 
-    //   id_ol: rol
+  @ManyToOne(() => Role, (rol) => rol.usuarios)
+  rol: Role
+
+  @OneToMany(() => Actividade, (actividad) => actividad.usuario)
+  actividades: Actividade[]
 }

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Transform } from "class-transformer";
 import { IsEmail, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { Role } from "src/roles/entities/role.entity";
 
 export class RegisterDto {
     @Transform(({ value }) => value.trim())
@@ -29,4 +30,7 @@ export class RegisterDto {
     @IsNumber()
     @IsNotEmpty()
     altura: number;
+
+    @IsNotEmpty()
+    rol: Role;
 }

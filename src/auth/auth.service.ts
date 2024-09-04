@@ -58,7 +58,8 @@ export class AuthService {
 
     return{
       token,
-      usuario
+      usuario,
+      rol: usuarioFound.rol
     }
   }
 }

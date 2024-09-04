@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Transform } from "class-transformer";
 import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
+import { Role } from "src/roles/entities/role.entity";
+
 
 export class CreateUsuarioDto {
     
@@ -28,4 +30,7 @@ export class CreateUsuarioDto {
 
     @IsNotEmpty()
     altura: number;
+
+    @IsNotEmpty()
+    rol: Role;
 }

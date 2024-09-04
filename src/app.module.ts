@@ -6,6 +6,9 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { RolesModule } from './roles/roles.module';
+import { ActividadesModule } from './actividades/actividades.module';
+import { MaquinasModule } from './maquinas/maquinas.module';
+import { TipoMaquinaModule } from './tipo-maquina/tipo-maquina.module';
 
 @Module({
   imports: [
@@ -22,6 +25,9 @@ import { RolesModule } from './roles/roles.module';
     UsuariosModule,
     AuthModule,
     RolesModule,
+    ActividadesModule,
+    MaquinasModule,
+    TipoMaquinaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
