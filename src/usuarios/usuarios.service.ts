@@ -16,8 +16,12 @@ export class UsuariosService {
   ) {}
 
   async findByUsuario(usuario: string){
-    return await this.usuarioRepository.findOneBy({
-      usuario
+    return await this.usuarioRepository.findOne({
+      where: {
+        usuario,
+      },
+
+      relations: ['rol'],
     })
   }
 

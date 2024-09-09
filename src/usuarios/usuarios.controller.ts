@@ -7,15 +7,15 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
+  // UseGuards,
 } from '@nestjs/common';
 import { UsuariosService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { AuthGuard } from 'src/auth/guard/auth.guard';
+// import { AuthGuard } from 'src/auth/guard/auth.guard';
 
 @Controller('usuarios')
-@UseGuards(AuthGuard)
+// @UseGuards(AuthGuard)
 export class UsuariosController {
   constructor(private readonly usuariosService: UsuariosService) {}
 
@@ -24,7 +24,7 @@ export class UsuariosController {
     return this.usuariosService.create(createUsuarioDto);
   }
 
-  @Get('obtener')
+  @Get('obtenerTodos')
   findAll() {
     return this.usuariosService.findAll();
   }

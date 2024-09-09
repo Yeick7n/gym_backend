@@ -13,7 +13,7 @@ export class ActividadesController {
     return this.actividadesService.create(createActividadeDto);
   }
 
-  @Get('obternerTodos')
+  @Get('obtenerTodos')
   findAll() {
     return this.actividadesService.findAll();
   }

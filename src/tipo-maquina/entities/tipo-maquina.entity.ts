@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Maquina } from 'src/maquinas/entities/maquina.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -10,6 +11,6 @@ export class TipoMaquina {
   @Column()
   nombre: string;
 
-  @OneToMany(() => Maquina, (maquina) => maquina.tipoMaquina)
+  @OneToMany((eager: true) => Maquina, (maquina) => maquina.tipoMaquina)
   maquinas: Maquina[];
 }

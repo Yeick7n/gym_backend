@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
 import { Maquina } from "src/maquinas/entities/maquina.entity";
 import { Usuario } from "src/usuarios/entities/usuario.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -10,20 +12,20 @@ export class Actividade {
     id: number;
 
     @Column()
-    nombre: string;
-
-    @Column()
     repeticiones: number;
-
+                                 
     @Column()
     peso: number;
 
     @Column()
-    series: number;
+    fechaInicio: Date;
 
-    @ManyToOne(() => Usuario, (usuario) => usuario.actividades)
+    @Column()
+    fechaFin: Date;
+
+    @ManyToOne((eager:true,) => Usuario, (usuario) => usuario.actividades)
     usuario: Usuario;
 
-    @ManyToOne(() => Maquina, (maquina) => maquina.actividades)
+    @ManyToOne((eager:true) => Maquina, (maquina) => maquina.actividades)
     maquina: Maquina;
 }

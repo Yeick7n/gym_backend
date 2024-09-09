@@ -12,20 +12,24 @@ export class MaquinasService {
   constructor(
     @InjectRepository(Maquina) private maquinaRepository: Repository<Maquina>
   ){}
+  
   async create(createMaquinaDto: CreateMaquinaDto) {
     const newMaquina = await this.maquinaRepository.create(createMaquinaDto);
     return await this.maquinaRepository.save(newMaquina);
   }
 
   async findAll() {
-    return await this.maquinaRepository.find();
+    return await this.maquinaRepository.find({
+      relations: ['actividades', 'tipoMaquina'],
+    });
   }
 
   async findOne(id: number) {
     const maquinaFound = await this.maquinaRepository.findOne({
       where: {
         id,
-      }
+      },
+      relations: ['actividades', 'tipoMaquina'],
     });
 
     if (!maquinaFound) {

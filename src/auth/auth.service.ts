@@ -56,10 +56,11 @@ export class AuthService {
 
     const token = this.jwtService.sign(payload);
 
+    delete usuarioFound.contrasena;
+    
     return{
       token,
-      usuario,
-      rol: usuarioFound.rol
+      ...usuarioFound,
     }
   }
 }

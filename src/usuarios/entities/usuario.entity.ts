@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Actividade } from 'src/actividades/entities/actividade.entity';
 import { Role } from 'src/roles/entities/role.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -30,9 +31,9 @@ export class Usuario {
   @Column()
   altura: number;
 
-  @ManyToOne(() => Role, (rol) => rol.usuarios)
+  @ManyToOne((eager: true) => Role, (rol) => rol.usuarios)
   rol: Role
 
-  @OneToMany(() => Actividade, (actividad) => actividad.usuario)
+  @OneToMany((eager: true) => Actividade, (actividad) => actividad.usuario)
   actividades: Actividade[]
 }
