@@ -14,10 +14,10 @@ import { TipoMaquinaModule } from './tipo-maquina/tipo-maquina.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: '127.0.0.1',
+      host: 'localhost',
       port: 3306,
       username: 'root',
-      password: '1234567890',
+      password: '',
       database: 'gym',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
