@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { ActividadesService } from './actividades.service';
 import { CreateActividadeDto } from './dto/create-actividade.dto';
 import { UpdateActividadeDto } from './dto/update-actividade.dto';
@@ -31,5 +31,27 @@ export class ActividadesController {
   @Delete('eliminar/:id')
   remove(@Param('id') id: number) {
     return this.actividadesService.remove(id);
+  }
+
+
+  @Get('ranking/cantidad-actividades')
+  async rankingPorCantidadDeActividades(@Query('inicio') inicio: string, @Query('fin') fin: string) {
+    const intervaloInicio = new Date(inicio);
+    const intervaloFin = new Date(fin);
+    return this.actividadesService.rankingPorCantidadDeActividades(intervaloInicio, intervaloFin);
+  }
+
+  @Get('ranking/peso-repeticiones')
+  async rankingPorPesoPorRepeticiones(@Query('inicio') inicio: string, @Query('fin') fin: string) {
+    const intervaloInicio = new Date(inicio);
+    const intervaloFin = new Date(fin);
+    return this.actividadesService.rankingPorPesoPorRepeticiones(intervaloInicio, intervaloFin);
+  }
+
+  @Get('ranking/peso-total')
+  async rankingPorPesoTotal(@Query('inicio') inicio: string, @Query('fin') fin: string) {
+    const intervaloInicio = new Date(inicio);
+    const intervaloFin = new Date(fin);
+    return this.actividadesService.rankingPorPesoTotal(intervaloInicio, intervaloFin);
   }
 }

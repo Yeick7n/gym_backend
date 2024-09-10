@@ -4,30 +4,49 @@ import { CreateActividadeDto } from './dto/create-actividade.dto';
 import { UpdateActividadeDto } from './dto/update-actividade.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Actividade } from './entities/actividade.entity';
-import { DataSource, LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
+import { LessThanOrEqual, MoreThanOrEqual, Repository } from 'typeorm';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
 
 @Injectable()
 export class ActividadesService {
   constructor(
     @InjectRepository(Actividade)
     private actividadesRepository: Repository<Actividade>,
-    private dataSource: DataSource,
+    @InjectRepository(Usuario)
+    private usuariosRepository: Repository<Usuario>,
   ) {}
 
-  async maquinaDisponible(maquinaId: number, nuevoInicio: Date, nuevoFin: Date): Promise<boolean> {
-    const actividadesEnConflicto = await this.actividadesRepository
-      .createQueryBuilder('actividad')
-      .where('actividad.maquinaId = :maquinaId', { maquinaId })
-      .andWhere(':nuevoInicio BETWEEN actividad.fechaInicio AND actividad.fechaFin', { nuevoInicio })
-      .orWhere(':nuevoInicio OR :nuevoFin BETWEEN actividad.fechaInicio AND actividad.fechaFin', { nuevoInicio, nuevoFin })
-      .orWhere('actividad.fechaInicio <= :nuevoInicio AND actividad.fechaFin >= :nuevoFin', { nuevoInicio, nuevoFin })
-      .orWhere(':nuevoInicio BETWEEN actividad.fechaInicio AND actividad.fechaFin', { nuevoInicio })
-      .orWhere(':nuevoFin BETWEEN actividad.fechaInicio AND actividad.fechaFin', { nuevoFin })
-      .getMany();
+  async rankingPorCantidadDeActividades(intervaloInicio: Date, intervaloFin: Date) {
+    const actividades = await this.actividadesRepository.createQueryBuilder('actividad')
+      .select('actividad.usuarioId, COUNT(actividad.id) AS cantidadActividades')
+      .where('actividad.fechaInicio BETWEEN :intervaloInicio AND :intervaloFin', { intervaloInicio, intervaloFin })
+      .groupBy('actividad.usuarioId')
+      .orderBy('cantidadActividades', 'DESC')
+      .getRawMany();
 
-      // .andWhere('actividad.fechaInicio >= :nuevoInicio AND actividad.fechaFin <= :nuevoFin', { nuevoInicio, nuevoFin })
-    console.log(actividadesEnConflicto, nuevoInicio, nuevoFin);
-    return actividadesEnConflicto.length === 0;
+    return actividades;
+  }
+
+  async rankingPorPesoPorRepeticiones(intervaloInicio: Date, intervaloFin: Date) {
+    const actividades = await this.actividadesRepository.createQueryBuilder('actividad')
+      .select('actividad.usuarioId, SUM(actividad.peso * actividad.repeticiones) AS pesoTotal')
+      .where('actividad.fechaInicio BETWEEN :intervaloInicio AND :intervaloFin', { intervaloInicio, intervaloFin })
+      .groupBy('actividad.usuarioId')
+      .orderBy('pesoTotal', 'DESC')
+      .getRawMany();
+
+    return actividades;
+  }
+
+  async rankingPorPesoTotal(intervaloInicio: Date, intervaloFin: Date) {
+    const actividades = await this.actividadesRepository.createQueryBuilder('actividad')
+      .select('actividad.usuarioId, SUM(actividad.peso) AS pesoTotal')
+      .where('actividad.fechaInicio BETWEEN :intervaloInicio AND :intervaloFin', { intervaloInicio, intervaloFin })
+      .groupBy('actividad.usuarioId')
+      .orderBy('pesoTotal', 'DESC')
+      .getRawMany();
+
+    return actividades;
   }
 
   async create(actividad: CreateActividadeDto) {
@@ -47,7 +66,7 @@ export class ActividadesService {
     if(maquinaDisponible) {
       throw new BadRequestException('La maquina ya tiene una actividad en ese horario');
     }
-    
+
     const newActividad = this.actividadesRepository.create(actividad);
     return await this.actividadesRepository.save(newActividad);
   }
@@ -102,3 +121,5 @@ export class ActividadesService {
     return this.actividadesRepository.delete(id);
   }
 }
+
+
