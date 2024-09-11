@@ -16,11 +16,11 @@ export class ActividadesService {
     private usuariosRepository: Repository<Usuario>,
   ) {}
 
+  // Vanessa
   async rankingPorCantidadDeActividades() {
     return this.actividadesRepository.createQueryBuilder('actividade')
       .select('usuario.id', 'usuarioId')
-      .addSelect('usuario.nombre', 'usuarioNombre') // Asegúrate de seleccionar el nombre del usuario
-      .addSelect('COUNT(actividade.id)', 'cantidadActividades')
+      .addSelect('usuario.nombre', 'usuarioNombre') 
       .addSelect('SUM(actividade.peso)', 'pesoTotal')
       .leftJoin('actividade.usuario', 'usuario')
       .groupBy('usuario.id')
@@ -32,7 +32,7 @@ export class ActividadesService {
     return this.actividadesRepository.createQueryBuilder('actividade')
       .select('usuario.id', 'usuarioId')
       .addSelect('usuario.nombre', 'usuarioNombre')
-      .addSelect('SUM(actividade.peso * actividade.repeticiones)', 'pesoRepeticiones') // Calcular peso por repeticiones
+      .addSelect('SUM(actividade.peso * actividade.repeticiones)', 'pesoRepeticiones') 
       .leftJoin('actividade.usuario', 'usuario')
       .groupBy('usuario.id')
       .orderBy('pesoRepeticiones', 'DESC')
@@ -42,7 +42,7 @@ export class ActividadesService {
   async rankingPorPesoTotal() {
     return this.actividadesRepository.createQueryBuilder('actividade')
       .select('usuario.id', 'usuarioId')
-      .addSelect('SUM(actividade.peso)', 'pesoTotal') // Calcular peso total
+      .addSelect('SUM(actividade.peso)', 'pesoTotal') 
       .leftJoin('actividade.usuario', 'usuario')
       .groupBy('usuario.id')
       .orderBy('pesoTotal', 'DESC')
@@ -119,6 +119,54 @@ export class ActividadesService {
 
     return this.actividadesRepository.delete(id);
   }
+
+  // Yeickon
+
+  async findActividadesByUsuarioId(id: number) {
+      const consulta = await this.actividadesRepository.findOne({
+        where: {
+          usuario: {
+            id,
+          }
+        }
+      });
+  
+      return consulta
+    }
+
+//   async rankingPorCantidadDeActividades(intervaloInicio: Date, intervaloFin: Date) {
+//     const actividades = await this.actividadesRepository.createQueryBuilder('actividad')
+//       .select('actividad.usuarioId, COUNT(actividad.id) AS cantidadActividades')
+//       .where('actividad.fechaInicio BETWEEN :intervaloInicio AND :intervaloFin', { intervaloInicio, intervaloFin })
+//       .groupBy('actividad.usuarioId')
+//       .orderBy('cantidadActividades', 'DESC')
+//       .getRawMany();
+
+//     return actividades;
+//   }
+
+//   async rankingPorPesoPorRepeticiones(intervaloInicio: Date, intervaloFin: Date) {
+//     const actividades = await this.actividadesRepository.createQueryBuilder('actividad')
+//       .select('actividad.usuarioId, SUM(actividad.peso * actividad.repeticiones) AS pesoTotal')
+//       .where('actividad.fechaInicio BETWEEN :intervaloInicio AND :intervaloFin', { intervaloInicio, intervaloFin })
+//       .groupBy('actividad.usuarioId')
+//       .orderBy('pesoTotal', 'DESC')
+//       .getRawMany();
+
+//     return actividades;
+//   }
+
+//   async rankingPorPesoTotal(intervaloInicio: Date, intervaloFin: Date) {
+//     const actividades = await this.actividadesRepository.createQueryBuilder('actividad')
+//       .select('actividad.usuarioId, SUM(actividad.peso) AS pesoTotal')
+//       .where('actividad.fechaInicio BETWEEN :intervaloInicio AND :intervaloFin', { intervaloInicio, intervaloFin })
+//       .groupBy('actividad.usuarioId')
+//       .orderBy('pesoTotal', 'DESC')
+//       .getRawMany();
+
+//     return actividades;
+//   }
+
 }
 
 

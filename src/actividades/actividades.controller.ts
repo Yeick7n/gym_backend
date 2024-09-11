@@ -33,8 +33,7 @@ export class ActividadesController {
     return this.actividadesService.remove(id);
   }
 
-
-  @Get('ranking/cantidad-actividades')
+  // METHODS HECHOS POR VANESSA
   @Get('ranking/cantidad-actividades')
   async rankingPorCantidadDeActividades() {
     return this.actividadesService.rankingPorCantidadDeActividades();
@@ -49,4 +48,32 @@ export class ActividadesController {
   async rankingPorPesoTotal() {
     return this.actividadesService.rankingPorPesoTotal();
   }
+
+  // METODOS HECHOS POR YEICKON, ESTOS SON SI SE NECESITAN LOS RANKINGS POR FECHA 
+
+  @Get('usuario/:id')
+  findActividadesByUsuarioId(@Param('id') id: number){
+    return this.actividadesService.findActividadesByUsuarioId(id);
+  }
+
+  // @Get('ranking/cantidad-actividades')
+  // async rankingPorCantidadDeActividades(@Query('inicio') inicio: string, @Query('fin') fin: string) {
+  //   const intervaloInicio = new Date(inicio);
+  //   const intervaloFin = new Date(fin);
+  //   return this.actividadesService.rankingPorCantidadDeActividades(intervaloInicio, intervaloFin);
+  // }
+
+  // @Get('ranking/peso-repeticiones')
+  // async rankingPorPesoPorRepeticiones(@Query('inicio') inicio: string, @Query('fin') fin: string) {
+  //   const intervaloInicio = new Date(inicio);
+  //   const intervaloFin = new Date(fin);
+  //   return this.actividadesService.rankingPorPesoPorRepeticiones(intervaloInicio, intervaloFin);
+  // }
+
+  // @Get('ranking/peso-total')
+  // async rankingPorPesoTotal(@Query('inicio') inicio: string, @Query('fin') fin: string) {
+  //   const intervaloInicio = new Date(inicio);
+  //   const intervaloFin = new Date(fin);
+  //   return this.actividadesService.rankingPorPesoTotal(intervaloInicio, intervaloFin);
+  // }
 }
